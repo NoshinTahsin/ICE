@@ -1,0 +1,530 @@
+navbar html
+<div class="head-section">
+
+    <div class="logo" id="myHeader">
+    <img src="assets/logo.png" alt="Logo" height="50px" width="90px">
+  </div>
+  
+  <div id="mySidenav" class="sidenav">
+    <a class="closebtn">&times;</a>
+  
+    <div class="nav-list-container">
+      <div class="nav-list"></div>
+    </div>
+    
+  </div>
+    
+    <div class="topnav" id="myTopnav">
+  
+        <a routerLink="/">Home</a>
+        <a routerLink="/products" >Products</a>
+        <a routerLink="/shopping-cart">Shopping Cart</a>
+        <a routerLink="/admin/products">Edit(Admin-Products)</a>
+        
+        <div class="cart-image" >
+          
+          <i class="fa fa-shopping-cart button-cart" style="font-size:35px; color:#ff571a"></i>
+          <div class="counter">0</div>
+    
+        </div>
+  
+    </div>
+  </div>
+  
+
+  products.html
+  <p>products works!</p>
+
+<!--<h2> {{getTitle()}} </h2>-->
+    
+        <div *ngFor="let product of productList; let i=index" class="card">
+            <div class="product-image">
+                <img src={{product.img}} alt="Book_Cover">
+            </div>
+            <div class="product-info">
+                <h4 class="title">{{product.title}}</h4>
+                <h4 class="author">{{product.author}}</h4>
+                <h4 class="des">{{product.des}}</h4>
+                <h4 class="price">{{product.price}}</h4>
+            </div>
+             
+            <div class="add-cart-action">
+                <button (click)="onAdding(i)" #buttonId *ngIf="isClicked; else elseBlock" 
+                  class="add-cart-btn button-{{product.id}}" data-id="{{product.id}}">Add to Cart</button>
+            </div>
+
+            <ng-template #elseBlock>
+                <div class="quantity di-button-${product.id}">
+                    <button class="minus-btn minus-btn-{{product.id}}" data-id="{{product.id}}" id="minus" type="button"   name="button">
+                        -
+                    </button>
+                    <span class="pro-quantity pro-quantity-{{product.id}}">{{product.quantity}}</span>
+        
+                    <button class="plus-btn plus-btn-{{product.id}}" data-id="{{product.id}}" id="plus" type="button"   name="button">
+                        +
+                    </button>
+                </div>
+            </ng-template>
+            
+
+
+        </div>
+
+        
+
+        <!--<div>
+        //class binding
+        <button class="btn btn-primary" [class.active]="isActive">Save</button>
+        </div>
+
+        <div>
+        //style binding
+        <button [style.backgroundColor]="isActive? 'blue':'red'">Save</button>
+        </div>
+
+        <div (click)="onDivClick()">
+        //event binding
+        <button (click)="onSave($event)">Save</button>
+        </div>
+
+        <input #email (keyup.enter) = "onKeyUp(email.value)"/>
+        <input [value]="email2" (keyup.enter) = "email2 = $event.target.value; onKeyUp2( )"/>
+        <input [(ngModel)]="email2" (keyup.enter) = "email2 = $event.target.value; onKeyUp2( )"/>
+        
+        <br/>
+        {{ course.name | uppercase }} <br/>
+        {{ course.rating | number:'1.2-2'}} <br/>
+        {{ course.students | number }} <br/>
+        {{ course.price }} <br/>
+        {{ course.release_date | date: 'shortDate'}} <br/>
+
+        {{ longText | summary:10}}-->
+
+       
+       
+
+products.compo.ts
+import { Component, OnInit } from '@angular/core';
+import { ProductsService } from './products.service';
+@Component({
+  selector: 'products',
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.css']
+})
+export class ProductsComponent implements OnInit {
+
+  productList;
+  isActive=false;
+  isClicked=false;
+  counter;
+  constructor(service:ProductsService){
+    this.productList=service.getProducts();
+    console.log(this.productList);
+  }
+
+  ngOnInit() {
+  }
+
+  onAdding(dataId){
+    console.log(dataId );
+    console.log(" button was clicked");
+    this.isClicked=true;
+
+    this.addToCart(dataId);
+  }
+
+  addToCart(dataId){
+    console.log(dataId +" added to cart" );
+
+    let cartProduct=this.getLocalStorage('cart-product');
+    const index=parseInt(dataId)-1;
+    let product=this.productList[index];
+    cartProduct = [...cartProduct, product];
+    console.log(cartProduct);
+    this.setLocalStorage('cart-product', cartProduct);
+    
+    this.counter = cartProduct.length;
+
+  }
+
+  getLocalStorage(name, initValue=[])  {
+    const data = localStorage.getItem(name);
+    return data && this.IsJsonString(data) ? JSON.parse(data) : initValue;
+  }
+
+  setLocalStorage(name, data){
+    const jsonString = JSON.stringify(data);
+    localStorage.setItem(name, jsonString);
+  }
+  
+   IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+  }
+
+}
+
+products.service.ts
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductsService {
+
+  constructor() { }
+
+  getProducts(){
+    return [
+      {
+          id: 1, img: 'assets/fahrenhite.jpg',
+          title: 'Fahrenhite 451', author:'Ray Bradbury', price: 'BDT 220', des: 'A dystopian novel', quantity: 1
+      },
+      {
+          id: 2, img: 'assets/animal_farm.jpg',
+          title: 'Animal Farm', author: 'George Orwell', price: 'BDT 120', des: 'A political satire', quantity: 1
+      },
+      {
+          id: 3, img: 'assets/hp.jpg',
+          title: 'Harry Potter and The Philosopher\'s Stone', author: 'J.K. Rowling ', price: 'BDT 170', des: 'Fantasy', quantity: 1
+      },
+      {
+          id: 4, img: 'assets/time_machine.jfif',
+          title: 'The Time Machine', author: 'H.G. Wells', price: 'BDT 180', des: 'A Dystopian Sci-fi', quantity: 1
+      },
+      {
+          id: 5, img: 'assets/whitefang.png',
+          title: 'White Fang', author: 'Jack London', price: 'BDT 150', des: 'A political satire', quantity: 1
+      },
+      {
+          id: 6, img: 'assets/matilda.jpg',
+          title: 'Matilda', author: 'Roald Dahl', price: 'BDT 120', des: 'Children\'s book - Fantasy', quantity: 1
+      },
+      {
+          id: 7, img: 'assets/little_prince.jpg',
+          title: 'The Little Prince', author: 'Antoine de Saint-Exupéry', price: 'BDT 140', des: 'A political satire', quantity: 1
+      },
+      {
+          id: 8, img: 'assets/tale.jfif',
+          title: 'A Tale of Two Cities', author: 'Charles Dickens', price: 'BDT 240', des: 'A political satire', quantity: 1
+      },
+      {
+          id: 9, img: 'assets/kafka.jpg',
+          title: 'Kafka On The Shore', author: 'Haruki Murakami', price: 'BDT 220', des: 'A political satire', quantity: 1
+      }
+  ]
+
+}
+}
+ 
+
+shopping-cart html
+<p>shopping-cart works!</p>
+
+
+<div *ngFor="let cartItem of cartProductList">
+    <div class="cart-card">
+        <div class="cart-product-image">
+            <img src={{cartItem.img}} alt="Book_Cover">
+        </div>
+        <div class="cart-product-info">
+            <h4 class="cart-title">{{cartItem.title}}</h4>
+            <h4 class="cart-author">{{cartItem.author}}</h4>
+            <h4 class="cart-des">{{cartItem.des}}</h4>
+            <h4 class="cart-price">{{cartItem.price}}</h4>
+            <h4 class="quantity-${cartItem.id} cart-quantity">{{cartItem.quantity}}</h4>
+            
+        </div>
+    
+        <div  class="remove-cart-action">
+                <button (click)="onRemoving(buttonId.id)" #buttonId class="remove-cart-btn rm-button-{{cartItem.id}} u-rmv-id-{{rem_id}}" data-id="{{cartItem.id}}">Remove from cart</button>
+        </div>
+    
+    </div>
+</div>
+
+
+shopping cart component
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'shopping-cart',
+  templateUrl: './shopping-cart.component.html',
+  styleUrls: ['./shopping-cart.component.css']
+})
+export class ShoppingCartComponent implements OnInit {
+
+  cartProductList;
+  constructor() { }
+
+  ngOnInit() {
+    this.cartProductList=this.getLocalStorage('cart-product');
+    console.log("cartProductList");
+    console.log(this.cartProductList);
+  }
+
+  showCart(){
+   
+  }
+
+  onRemoving(dataId){
+    console.log(dataId );
+    console.log(" button was removed");
+
+    this.removeFromCart(dataId);
+  }
+
+  removeFromCart(dataId){
+    console.log(dataId +" removed from cart" );
+    console.log(dataId);
+
+    this.cartProductList=this.getLocalStorage('cart-product');
+    const index=parseInt(dataId);
+    var removed=this.cartProductList.splice(index,1);
+    console.log("removed");
+    console.log(index);
+     
+    console.log(this.cartProductList);
+    this.setLocalStorage('cart-product', this.cartProductList);
+    
+    let counter = this.cartProductList.length;
+
+  }
+
+ 
+  getLocalStorage(name, initValue=[])  {
+    const data = localStorage.getItem(name);
+    return data && this.IsJsonString(data) ? JSON.parse(data) : initValue;
+  }
+
+  setLocalStorage(name, data){
+    const jsonString = JSON.stringify(data);
+    localStorage.setItem(name, jsonString);
+  }
+  
+   IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+  }
+
+  
+  
+   
+
+}
+
+app routing module
+
+app com html
+ <!--<h1> Angular </h1>
+ <courses></courses>
+
+<favourite [is-fav]="post.isFavourite" (change)=onFavouriteChanged($event)></favourite>  
+ 
+should use alias, 
+    but need to update favourite component html as it will not update automatically, need to change manually
+
+  can't directly use property binding here
+    in angular, to do property binding, we need to define that field/property as
+    an Input property and to add support for event binding, we need Output Property
+    Input and Output properties make a component more reusable
+    Using Input properties, we pass a state or event to a component
+    and we use output propertier to raise event from the custom components
+
+    Input and output properties together make the public API for that component 
+    
+ <favourite [is-favourite]="post.isFavourite" (change)="onFavouriteChanged()"></favourite>
+
+<bootstrap-panel>
+     <ng-container class="heading">This is the heading</ng-container>
+    <div class="body">
+        <h1>This is the body</h1>
+        <p>This is in the body...</p>
+    </div>
+</bootstrap-panel> 
+
+<div *ngIf="courses.length>0; then coursesList else noCourses" ></div>
+
+<ng-template #coursesList>
+  Showing the list of courses
+</ng-template>
+
+<ng-template #noCourses>
+  No courses yet
+</ng-template>
+
+<ul class="nav nav-pills">
+  <li class="nav-item"><a class="nav-link" [class.active]="viewmode=='map'" (click)="viewmode='map'" >Map</a></li>
+  <li class="nav-item"><a class="nav-link" [class.active]="viewmode=='list'" (click)="viewmode='list'" >List</a></li>
+</ul>
+
+<div [ngSwitch]="viewmode">
+  <div *ngSwitchCase="'map'"> Map View Content</div>
+  <div *ngSwitchCase="'list'"> List View Content</div>
+  <div *ngSwitchDefault> Default View Content</div>
+</div>
+
+<button (click)="loadCourses()">Load Courses</button>
+<button (click)="onAdd()">Add Course</button>
+<ul>
+  <li *ngFor="let course of courses; even as isEven, trackBy: trackCourse">
+    {{course.name}} <span *ngIf="isEven">even row</span>
+    <button (click)="onRemove(course)">Remove Course</button>
+  </li>
+</ul>
+
+<input type="text" appInputFormat format="'lowercase'">
+<contact-form></contact-form>
+
+In case of reactive forms we don't use html5 attributes, we use validators instead
+
+<signup-form></signup-form>
+<new-course-form></new-course-form> 
+
+<posts></posts>-->
+
+<view-card></view-card>
+
+
+ 
+<bs-navbar></bs-navbar>
+
+
+<div class="body-section">
+  <div class="flex-container">
+    <div class="product-list  ">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<!--
+
+  <div class="body-section">
+  <div class="flex-container">
+    <div class="product-list  "></div>
+  </div>
+</div>
+<main role="main" class="container">
+
+  <div class="starter-template">
+    <h1>Bootstrap starter template</h1>
+    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+  </div>
+
+</main>/.container -->
+
+
+app  module ts
+import { RouterModule } from '@angular/router';
+import { SummaryPipe } from './summary.pipe';
+import { CoursesService } from './courses.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { NgModule } from '@angular/core';
+import { HttpClientModule  } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CoursesComponent } from './courses.component';
+import { CourseComponent } from './course/course.component';
+import { FavouriteComponent } from './favourite/favourite.component';
+import { PanelComponent } from './panel/panel.component';
+import { InputFormatDirective } from './input-format.directive';
+import { ContactFormComponent } from './contact-form/contact-form.component';
+import { SignupFormComponent } from './signup-form/signup-form.component';
+import { NewCourseFormComponent } from './new-course-form/new-course-form.component';
+import { PostsComponent } from './posts/posts.component';
+import { ViewCardComponent } from './view-card/view-card.component';
+import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
+import { HomeComponent } from './home/home.component';
+import { ProductsComponent } from './products/products.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { CheckOutComponent } from './check-out/check-out.component';
+import { OrderSuccessComponent } from './order-success/order-success.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
+import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
+ 
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    CoursesComponent,
+    CourseComponent,
+    SummaryPipe,
+    FavouriteComponent,
+    PanelComponent,
+    InputFormatDirective,
+    ContactFormComponent,
+    SignupFormComponent,
+    NewCourseFormComponent,
+    PostsComponent,
+    ViewCardComponent,
+    BsNavbarComponent,
+    HomeComponent,
+    ProductsComponent,
+    ShoppingCartComponent,
+    CheckOutComponent,
+    OrderSuccessComponent,
+    MyOrdersComponent,
+    AdminProductsComponent,
+    AdminOrdersComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule ,
+    RouterModule.forRoot ([
+      { path: '', component: HomeComponent},
+      { path: 'products', component: ProductsComponent},
+      { path: 'shopping-cart', component: ShoppingCartComponent},
+      { path: 'check-out', component: CheckOutComponent},
+      { path: 'order-success', component: OrderSuccessComponent},
+      { path: 'my-orders', component: MyOrdersComponent},
+      { path: 'admin/products', component: AdminProductsComponent},
+      { path: 'admin/orders', component: AdminOrdersComponent},
+
+    ])
+
+    
+  ],
+  providers: [
+    CoursesService //Singleton
+  ], //dependency injection
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+index.html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HelloWorld2</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+   
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
+
+
+
+style.css
