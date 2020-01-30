@@ -1,0 +1,28 @@
+.achievement-read-list {
+
+    margin: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex:80%;
+    max-width: 80%;
+    align-content: center;
+    align-items: center;
+    align-self: stretch;
+  
+  }
+  
+  .achievement-read-list .list {
+  
+   width: 33%;
+   flex:33%;
+   align-self: stretch;
+   flex-wrap: wrap;
+   padding: 40px;  
+   flex-grow:0;
+   text-overflow:ellipsis;
+   background-color: cornsilk;
+   
+   
+  }
+  
