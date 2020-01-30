@@ -9,7 +9,7 @@ function DiscussionCardList(){
                 date:'on March 5th, 2014'
             },
             {
-                id: 2, img: 'assets/default.jfif',
+                id: 2, img: 'assets/default.jfif', 
                 title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
                 des: `Hello this is a test comment 
                 and this comment is particularly very long and it goes on and on and on`,
