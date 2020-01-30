@@ -4,33 +4,33 @@ function BlogCardList(){
         return [ 
             {
                 id: 1, img: 'assets/default.jfif',
-                title: 'Subject Reviews',
+                title: 'SUBJECT REVIEW',
                 des: "Answering the WHATs"
             },
             {
                 id: 2, img: 'assets/default.jfif',
-                title: 'The Impact of the subject',
+                title: 'KNOW THE IMPACT',
                 des: "Answering the WHYs"
             },
             {
                 id: 3, img: 'assets/default.jfif',
-                title: 'Universities',
+                title: 'UNIVERSITIES',
                 des:'Know where this course is available'
             },
             {
                 id: 4, img: 'assets/default.jfif',
-                title: 'Quote of the Professors',
-                des: 'Get in touch with the professors'
+                title: 'MEET PROFESSIONALS',
+                des: 'Blogs by professionals'
             },
             {
                 id: 5, img: 'assets/default.jfif',
-                title: ' Competitions',
-                des: 'Details'
+                title: ' COMPETITIONS',
+                des: 'Know Details'
             },
             {
                 id: 6, img: 'assets/default.jfif',
-                title: 'Scope for higher studies',
-                des: 'guidance'
+                title: 'HIGHER STUDIES',
+                des: 'Get Guidance'
             }
         ]
     }

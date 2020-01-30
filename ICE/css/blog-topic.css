@@ -20,8 +20,6 @@
    flex-wrap: wrap;
    padding: 40px;  
    flex-grow:0;
-   background-image: url(assets/default.jfif);
-     
    
  }
 
@@ -48,28 +46,26 @@
 
 .card .product-info .title {
     white-space: nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    /*overflow:hidden;*/
+    
 }
 
 .card .product-info .author {
     white-space: nowrap;
     overflow:hidden;
-    text-overflow:ellipsis;
+   
 }
 
 .card .product-info .des {
-      white-space: nowrap;
+    white-space: nowrap;
     overflow:hidden;
-    text-overflow:ellipsis;
-}
+ }
 
 .card .add-cart-btn {
     border: none;
     outline: 0;
     padding: 12px;
-    color: white;
-    background-color: #4CAF50;
+    color: coral;
     text-align: center;
     cursor: pointer;
     width: 100%;
@@ -77,6 +73,3 @@
     height: 50px;
 }
 
-.card .add-cart-btn:hover {
-    background-color: #46a049;
-}
