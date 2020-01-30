@@ -1,8 +1,8 @@
-function BlogReadListCreation(){ 
+function AchReadListCreation(){ 
   
-    function createReadListDom(product) {
+    function createAchReadListDom(product) {
            return `  
-           <div class="re-list">
+           <div class="list">
 
                 <div class="product-info">
                    <h4 class="title">${product.title}</h4>
@@ -11,7 +11,7 @@ function BlogReadListCreation(){
 
                 <div class="img-info">
                     <div class="product-image">
-                        <img src="${product.img}" class="rounded-circle center"  alt="Book_Cover">
+                        <img src="${product.img}"   alt="Book_Cover">
                     </div>
                     <p class="imginfo">${product.des}</p>
                 </div>
@@ -35,7 +35,11 @@ function BlogReadListCreation(){
         </div>
 
         <div class="modal-body">
-          <p> After the feasibility study, we head into the next phase; elicitation and analysis.
+
+          <div class="modal-image">
+            <img src="${product.img}" class="center" alt="Book_Cover">
+          </div>
+          <p style="margin:20px"> After the feasibility study, we head into the next phase; elicitation and analysis.
           Requirements Elicitation & Analysis
           It’s a process of interacting with customers and end-users to find out about the domain requirements, what services the system should provide, and the other constrains.
           Domain requirements reflect the environment in which the system operates so, when we talk about an application domain we mean environments such as train operation, medical records, e-commerce etc.
@@ -86,6 +90,6 @@ function BlogReadListCreation(){
    
        return {
            
-        createReadListDom
+        createAchReadListDom
        }
    }
