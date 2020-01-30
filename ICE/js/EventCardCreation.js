@@ -12,7 +12,7 @@ function EventCardCreation(){
            </div>
             
            <div class="add-cart-action">
-               <a href="#" class="w3-btn w3-green add-cart-btn button-${product.id}"
+               <a href="${product.link}" class="w3-btn add-cart-btn button-${product.id}"
                data-id="${product.id}">Register</a>
            </div>
 

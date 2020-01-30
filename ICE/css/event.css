@@ -14,8 +14,8 @@
   
   .event-list .card {
   
-   width: 25%;
-   flex:25%;
+    width: 33.33%;
+    flex: 33.33%;
    align-self: stretch;
    flex-wrap: wrap;
    padding: 40px;  
@@ -58,7 +58,7 @@
 }
 
 .card .product-info .des {
-      white-space: nowrap;
+    white-space: nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
 }
@@ -67,8 +67,8 @@
     border: none;
     outline: 0;
     padding: 12px;
-    color: white;
-    background-color: #4CAF50;
+    color: cadetblue;
+    background-color: honeydew;
     text-align: center;
     cursor: pointer;
     width: 100%;
